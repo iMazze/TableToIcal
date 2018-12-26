@@ -1,0 +1,15 @@
+#BlueJ class context
+comment0.target=ExcelReader
+comment1.params=args
+comment1.target=void\ main(java.lang.String[])
+comment2.params=path
+comment2.target=java.util.ArrayList\ getFromExcel(java.lang.String)
+comment3.params=sheet\ row\ column
+comment3.target=boolean\ isMergedCell(org.apache.poi.ss.usermodel.Sheet,\ int,\ int)
+comment4.params=s\ c_row\ c_cell\ day
+comment4.target=java.util.ArrayList\ getDaysEvents(org.apache.poi.ss.usermodel.Sheet,\ int,\ int,\ java.util.Date)
+comment5.params=sheet\ row\ column
+comment5.target=boolean\ isInfoBox(org.apache.poi.ss.usermodel.Sheet,\ int,\ int)
+comment6.params=i\ end
+comment6.target=java.lang.String\ getTimeLikeNumber(int,\ boolean)
+numComments=7
