@@ -25,14 +25,19 @@
       defaultView: 'agendaWeek',
       //allDaySlot: false, 
       
-      eventClick: function(calEvent, jsEvent, view) {
-          var title = prompt('Event Title:', calEvent.title, { buttons: { Ok: true, Cancel: false} });
+      eventClick: function(calEvent, jsEvent) {
+        var title = prompt('Event Title:', calEvent.title, {
+            buttons: {
+                Ok: true,
+                Cancel: false
+            }
+        });
 
-          if (title){
-              calEvent.title = title;
-              calendar.fullCalendar('updateEvent',calEvent);
-          }
-	  },
+        if (title) {
+            calEvent.title = title;
+            $('#calendar').fullCalendar('updateEvent', calEvent);
+        }
+      },
       
       header: {
       	center: 'addEventButton'
