@@ -23,6 +23,31 @@
       maxTime: "19:00:00",
       weekends: false, // will hide Saturdays and Sundays
       defaultView: 'agendaWeek',
+      
+      header: {
+      	center: 'addEventButton'
+      },
+
+      customButtons: {
+        addEventButton: {
+          text: 'add event...',
+          click: function() {
+            var dateStr = prompt('Enter a date in YYYY-MM-DD format');
+            var date = moment(dateStr);
+
+            if (date.isValid()) {
+              $('#calendar').fullCalendar('renderEvent', {
+                title: 'dynamic event',
+                start: date,
+                allDay: true
+              });
+              alert('Great. Now, update your database...');
+            } else {
+              alert('Invalid date.');
+            }
+          }
+        }
+      }
     });
       $.get('https://cors-anywhere.herokuapp.com/https://imazze.github.io/TableToIcal/bin/TFE17-2%20-%204.%20Semester.ics', function (res) {
         var events = []
