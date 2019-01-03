@@ -1,7 +1,7 @@
 ics_sources = [
     {url:'samples/events.ics',event_properties:{color:'gold'}},
     {url:'samples/events-noend.ics',event_properties:{color:'pink'}},
-    {url:'https://imazze.github.io/TableToIcal/bin/TFE17-2%20-%204.%20Semester.ics'},
+    {url:'samples/tfe.ics'},
     {url:'samples/daily_recur.ics',event_properties:{className:['daily-recur'], url:'http://recurring.events.example.org/'}}
 ]
 
