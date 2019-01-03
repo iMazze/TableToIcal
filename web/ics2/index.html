@@ -24,7 +24,7 @@
     });
     $('#fetch').click(function () {
       //$.get('https://cors-anywhere.herokuapp.com/'+$('#eventsource').val(), function (res) {
-      $.get('https://cors-anywhere.herokuapp.com/'+'https://imazze.github.io/TableToIcal/bin/TFE17-2%20-%204.%20Semester.ics'), function (res) {
+      $.get('https://cors-anywhere.herokuapp.com/https://imazze.github.io/TableToIcal/bin/TFE17-2%20-%204.%20Semester.ics'), function (res) {
         var events = []
         var parsed = ICAL.parse(res);
         parsed[2].forEach(function(event) {
