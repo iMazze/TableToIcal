@@ -23,6 +23,16 @@
       maxTime: "19:00:00",
       weekends: false, // will hide Saturdays and Sundays
       defaultView: 'agendaWeek',
+      allDaySlot: false, 
+      
+      eventClick: function(calEvent, jsEvent, view) {
+          var title = prompt('Event Title:', calEvent.title, { buttons: { Ok: true, Cancel: false} });
+
+          if (title){
+              calEvent.title = title;
+              calendar.fullCalendar('updateEvent',calEvent);
+          }
+	  },
       
       header: {
       	center: 'addEventButton'
