@@ -23,44 +23,7 @@
       maxTime: "19:00:00",
     });
     //$('#fetch').click(
-    function xxx() {
-      $.get('https://cors-anywhere.herokuapp.com/https://imazze.github.io/TableToIcal/bin/TFE17-2%20-%204.%20Semester.ics', function (res) {
-      //$.get('https://cors-anywhere.herokuapp.com/'+$('https://imazze.github.io/TableToIcal/bin/TFE17-2%20-%204.%20Semester.ics').val(), function (res) {
-        var events = []
-        var parsed = ICAL.parse(res);
-        parsed[2].forEach(function(event) {
-          if (event[0] !== 'vevent') return
-          var summary, location, start, end;
-          event[1].forEach(function(event_item){
-            switch(event_item[0]){
-              case 'location':
-                location = event_item[3]
-                break;
-              case 'summary':
-                summary = event_item[3]
-                break;
-              case 'dtstart':
-                start = event_item[3]
-                break;
-              case 'dtend':
-                end = event_item[3]
-                break;
-            }
-            if (summary && location && start && end) {
-              console.log(summary, 'at', start)
-              events.push({
-                title: summary,
-                start: start,
-                end: end,
-                location: location
-              })
-            }
-          })
-        });
-        $('#calendar').fullCalendar('removeEventSources')
-        $('#calendar').fullCalendar('addEventSource', events);
-      })
-    })
+    
   	//xxx();
   });
 </script>
@@ -94,7 +57,6 @@
 </style>
 </head>
 <body>
-  <h1>Online ics feed ical viewer</h1>
   <header>
 <input id="eventsource" placeholder="copy/paste the url and press fetch...">
 <button id="fetch">fetch</button>
