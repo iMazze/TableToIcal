@@ -22,10 +22,7 @@
       minTime: "8:00:00",
       maxTime: "19:00:00",
     });
-    //$('#fetch').click(
-    //function xxx() {
       $.get('https://cors-anywhere.herokuapp.com/https://imazze.github.io/TableToIcal/bin/TFE17-2%20-%204.%20Semester.ics', function (res) {
-      //$.get('https://cors-anywhere.herokuapp.com/'+$('https://imazze.github.io/TableToIcal/bin/TFE17-2%20-%204.%20Semester.ics').val(), function (res) {
         var events = []
         var parsed = ICAL.parse(res);
         parsed[2].forEach(function(event) {
@@ -60,8 +57,6 @@
         $('#calendar').fullCalendar('removeEventSources')
         $('#calendar').fullCalendar('addEventSource', events);
       })
-    //}//)
-  	//xxx();
   });
 </script>
 <style>
@@ -94,10 +89,6 @@
 </style>
 </head>
 <body>
-  <header>
-<input id="eventsource" placeholder="copy/paste the url and press fetch...">
-<button id="fetch">fetch</button>
-</header>
   <div id='calendar'></div>
 </body>
 </html>
