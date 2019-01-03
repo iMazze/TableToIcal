@@ -22,7 +22,8 @@
       minTime: "8:00:00",
       maxTime: "19:00:00",
     });
-    $('#fetch').click(function () {
+    //$('#fetch').click(
+    function xxx() {
       $.get('https://cors-anywhere.herokuapp.com/https://imazze.github.io/TableToIcal/bin/TFE17-2%20-%204.%20Semester.ics', function (res) {
       //$.get('https://cors-anywhere.herokuapp.com/'+$('https://imazze.github.io/TableToIcal/bin/TFE17-2%20-%204.%20Semester.ics').val(), function (res) {
         var events = []
@@ -60,6 +61,7 @@
         $('#calendar').fullCalendar('addEventSource', events);
       })
     })
+  	xxx();
   });
 </script>
 <style>
