@@ -40,10 +40,12 @@
       
       context.fillStyle = color;
       context.fillRect(0, 0, canvas.width, canvas.height);
+
       context.globalCompositeOperation = "destination-out";
       
       // Apply the image
       context.drawImage( template, 0, 0);
+
       // Generate the base64 encoded string
       var data = canvas.toDataURL('image/png'),
           css  = "body { background: " + background + " url(" + data + ") repeat; }";
