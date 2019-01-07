@@ -47,9 +47,9 @@
 
       customButtons: {
         addEventButton: {
-          text: 'add event...',
+          text: 'Vorlesung hinzufügen',
           click: function() {
-            var dateStr = prompt('Enter a date in YYYY-MM-DD format');
+            var dateStr = prompt('Geben Sie ein Datum im Format JJJJ-MM-TT ein');
             var date = moment(dateStr);
 
             if (date.isValid()) {
