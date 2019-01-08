@@ -35,6 +35,7 @@ $(document).ready(function() {
     defaultView: 'schedule',
     timezone: 'local'
   });
+  add_calendar('ical', 'https://imazze.github.io/TableToIcal/bin/TFE17-2%20-%204.%20Semester.ics');
   $('#add-google-calendars').on('click', () => google_auth(CLIENT_ID).then(gcal_list_calendars).then(add_gcal_list).catch(handle_err));
   $('#add-ical').on('click', () => add_ical_calendar());
   window.onresize = () => $('#calendar').fullCalendar('option', 'height', window.innerHeight);

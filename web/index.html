@@ -9,7 +9,14 @@
 <script src='./lib/jquery.min.js'></script>
 <script src='./fullcalendar.min.js'></script>
 <script src='./ical.min.js'></script>
+<script src='./icalsource.js'></script>
 <script type="text/javascript">
+
+function add_ical_source(url) {
+  $('#calendar').fullCalendar('removeEventSources')
+  $('#calendar').fullCalendar('addEventSource', ical_event_source(url));
+}
+
  $(document).ready(function () {
     $('#calendar').fullCalendar({
       header: {
@@ -23,24 +30,25 @@
       maxTime: "19:00:00",
       weekends: false, // will hide Saturdays and Sundays
       defaultView: 'agendaWeek',
-      //allDaySlot: false, 
+      allDaySlot: false, 
+      timeFormat: 'H:mm',
+      slotLabelFormat: "HH:mm",
       
-      eventClick: function(calEvent, jsEvent) {
-        var title = prompt('Event Title:', calEvent.title, {
-            buttons: {
-                Ok: true,
-                Cancel: false
-            }
-        });
+      // eventClick: function(calEvent, jsEvent) {
+//         var title = prompt('Event Title:', calEvent.title, {
+//             buttons: {
+//                 Ok: true,
+//                 Cancel: false
+//             }
+//         });
+// 
+//         if (title) {
+//             calEvent.title = title;
+//             $('#calendar').fullCalendar('updateEvent', calEvent);
+//         }
+//       },
+//       
 
-        if (title) {
-            calEvent.title = title;
-            $('#calendar').fullCalendar('updateEvent', calEvent);
-        }
-      },
-      
-      
-      
       header: {
       	center: 'addEventButton'
       },
@@ -66,45 +74,12 @@
         }
       }
     });
-      $.get('https://cors-anywhere.herokuapp.com/https://imazze.github.io/TableToIcal/bin/TFE17-2%20-%204.%20Semester.ics', function (res) {
-        var events = []
-        var parsed = ICAL.parse(res);
-        parsed[2].forEach(function(event) {
-          if (event[0] !== 'vevent') return
-          var summary, location, start, end;
-          event[1].forEach(function(event_item){
-            switch(event_item[0]){
-              case 'location':
-                location = event_item[3]
-                break;
-              case 'summary':
-                summary = event_item[3]
-                break;
-              case 'dtstart':
-                start = event_item[3]
-                break;
-              case 'dtend':
-                end = event_item[3]
-                break;
-            }
-            if (summary && location && start && end) {
-              console.log(summary, 'at', start)
-              events.push({
-                title: summary,
-                start: start,
-                end: end,
-                location: location
-              })
-            }
-          })
-        });
-        $('#calendar').fullCalendar('removeEventSources')
-        $('#calendar').fullCalendar('addEventSource', events);
-      })
+    
+    add_ical_source('https://imazze.github.io/TableToIcal/bin/TFE17-2%20-%204.%20Semester.ics');
+      
   });
 </script>
 <style>
-
   body {
     margin: 40px 10px;
     padding: 0;
@@ -129,7 +104,6 @@
     padding: 4px;
     width: 20%
   }
-
 </style>
 </head>
 <body>

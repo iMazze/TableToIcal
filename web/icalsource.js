@@ -30,14 +30,13 @@ function ical_event_source(url) {
         var comp = new ICAL.Component(data);
         var events = comp.getAllSubcomponents('vevent').map(ve => new ICAL.Event(ve));
         var color = comp.getFirstPropertyValue('x-apple-calendar-color');
-        log('ical: Got %d events', events.length);
         callback(
           events
           //TODO: handle recurring events
             .filter(entry => !entry.isRecurring() && (moment(entry.startDate.toJSDate()).isBetween(start, end, null, '[]') || moment(entry.endDate.toJSDate()).isBetween(start, end, null, '[]')))
             .map(entry => {
               return {
-                id: entry.uid,
+                //id: entry.uid,
                 title: entry.summary,
                 allDay: entry.startDate.isDate,
                 start: entry.startDate.toJSDate(),
@@ -51,4 +50,3 @@ function ical_event_source(url) {
     }
   };
 }
-
