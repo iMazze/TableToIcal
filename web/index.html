@@ -10,11 +10,12 @@
 <script src='./fullcalendar.min.js'></script>
 <script src='./ical.min.js'></script>
 <script src='./icalsource.js'></script>
+<script src='./icalpost.js'></script>
 <script type="text/javascript">
 
 function add_ical_source(url) {
-  $('#calendar').fullCalendar('removeEventSources')
-  $('#calendar').fullCalendar('addEventSource', ical_event_source(url));
+  //$('#calendar').fullCalendar('removeEventSources')
+  $('#calendar').fullCalendar('addEventSource', ical_event_source2(url));
 }
 
  $(document).ready(function () {
@@ -28,55 +29,93 @@ function add_ical_source(url) {
       editable: true,
       minTime: "8:00:00",
       maxTime: "19:00:00",
-      weekends: false, // will hide Saturdays and Sundays
+      //weekends: false, // will hide Saturdays and Sundays
       defaultView: 'agendaWeek',
-      allDaySlot: false, 
+      allDaySlot: true, 
       timeFormat: 'H:mm',
       slotLabelFormat: "HH:mm",
       
-      // eventClick: function(calEvent, jsEvent) {
-//         var title = prompt('Event Title:', calEvent.title, {
-//             buttons: {
-//                 Ok: true,
-//                 Cancel: false
-//             }
-//         });
-// 
-//         if (title) {
-//             calEvent.title = title;
-//             $('#calendar').fullCalendar('updateEvent', calEvent);
-//         }
-//       },
-//       
+      
+      eventClick: function(calEvent, jsEvent) {
+        var title = prompt('Event Title:', calEvent.title, {
+            buttons: {
+                Ok: true,
+                Cancel: false
+            }
+        });
+        var room = prompt('Event Room:', calEvent.location, {
+            buttons: {
+                Ok: true,
+                Cancel: false
+            }
+        });
+
+        if (title && room) {
+            calEvent.title = title;
+            calEvent.location = room;
+            $('#calendar').fullCalendar('updateEvent', calEvent);
+        }
+      },
+      
+      eventRender: function(event, element, view) {
+  		if (event.location) element.find(".fc-title").append(" - " + event.location);
+	  },
 
       header: {
-      	center: 'addEventButton'
+      	center: 'addEventButton, saveButton'
       },
 
       customButtons: {
         addEventButton: {
           text: 'Vorlesung hinzufügen',
           click: function() {
-            var dateStr = prompt('Geben Sie ein Datum im Format JJJJ-MM-TT ein');
-            var date = moment(dateStr);
-
-            if (date.isValid()) {
+          	var titleStr = prompt('Geben Sie den Titel ein');
+          	var roomStr = prompt('Geben Sie den Raum ein');
+            var dateStartStr = prompt('Geben Sie ein Datum im Format YYYY-MM-DD HH:mm ein');
+            var durationStr = prompt('Geben Sie die Dauer im Format HH:mm ein');
+			var dateStart = moment(dateStartStr, 'YYYY-MM-DD HH:mm');
+			
+			var minutes = durationStr.split(':')[1];
+			var hours = durationStr.split(':')[0];
+			
+			var dateEnd = moment(dateStartStr, 'YYYY-MM-DD HH:mm')
+				.add(hours, 'hours')
+        		.add(minutes, 'minutes');
+        		
+            if (dateStart.isValid()) {
               $('#calendar').fullCalendar('renderEvent', {
-                title: 'dynamic event',
-                start: date,
-                allDay: true
-              });
-              alert('Great. Now, update your database...');
+                title: titleStr,
+                start: dateStart,
+                end: dateEnd,
+                location: roomStr
+              }, true);
             } else {
               alert('Invalid date.');
             }
           }
-        }
+        },
+        saveButton: {
+          text: 'Speichern',
+          click: function() {
+          	ical_new = $('#calendar').fullCalendar('clientEvents');
+          	
+//           var str;
+// 			events.forEach( function(e) { 
+//      			str += e.title + "\n";
+// 			});
+// 			
+// 			alert(str);
+			
+			ical_compare();
+          }
+      	}
       }
+      
+      
     });
     
     add_ical_source('https://imazze.github.io/TableToIcal/bin/TFE17-2%20-%204.%20Semester.ics');
-      
+    ical_original = $('#calendar').fullCalendar('clientEvents');
   });
 </script>
 <style>
