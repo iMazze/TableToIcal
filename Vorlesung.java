@@ -117,7 +117,7 @@ public class Vorlesung extends defines
 
 
         // Replace Raum
-        Pattern p = Pattern.compile("[HN]\\d\\d\\d");   // the pattern to search for
+        Pattern p = Pattern.compile("[HNE]\\d\\d\\d");   // the pattern to search for
         Matcher m = p.matcher(title);
         
         // now try to find at least one match
