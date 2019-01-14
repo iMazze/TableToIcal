@@ -1,149 +1,171 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset='utf-8' />
-<title>TFE17-2 Calendar Viewer</title>
-<link href='./fullcalendar.min.css' rel='stylesheet' />
-<link href='./fullcalendar.print.min.css' rel='stylesheet' media='print' />
-<script src='./lib/moment.min.js'></script>
-<script src='./lib/jquery.min.js'></script>
-<script src='./fullcalendar.min.js'></script>
-<script src='./ical.min.js'></script>
-<script src='./icalsource.js'></script>
-<script src='./icalpost.js'></script>
-<script type="text/javascript">
+  <meta charset='utf-8' />
+  <title>TFE17-2 Calendar Viewer</title>
+  <link href='./fullcalendar.min.css' rel='stylesheet' />
+  <link href='./fullcalendar.print.min.css' rel='stylesheet' media='print' />
+  <script src='./lib/moment.min.js'></script>
+  <script src='./lib/jquery.min.js'></script>
+  <script src='./fullcalendar.min.js'></script>
+  <script src='./ical.min.js'></script>
+  <script src='./icalsource.js'></script>
+  <script src='./icalpost.js'></script>
+  <script type="text/javascript">
 
-function add_ical_source(url) {
-  //$('#calendar').fullCalendar('removeEventSources')
-  $('#calendar').fullCalendar('addEventSource', ical_event_source2(url));
-}
+    function add_ical_source(url) {
+      $('#calendar').fullCalendar('removeEventSources')
+      $('#calendar').fullCalendar('addEventSource', ical_event_source2(url));
+    }
 
- $(document).ready(function () {
-    $('#calendar').fullCalendar({
-      header: {
-        left: 'prev,next today',
-        center: 'title addEventButton, saveButton',
-        right: 'month,agendaWeek,agendaDay,listMonth'
-      },
-      navLinks: true, // can click day/week names to navigate views
-      editable: true,
-      minTime: "8:00:00",
-      maxTime: "19:00:00",
-      weekends: false, // will hide Saturdays and Sundays
-      defaultView: 'agendaWeek',
-      allDaySlot: false, 
-      timeFormat: 'H:mm',
-      slotLabelFormat: "HH:mm",
-      
-      
-      eventClick: function(calEvent, jsEvent) {
-        var title = prompt('Event Title:', calEvent.title, {
+    $(document).ready(function () {
+      $('#calendar').fullCalendar({
+        header: {
+          left: 'prev,next today',
+          center: 'title addEventButton, saveButton',
+          right: 'month,agendaWeek,agendaDay,listMonth'
+        },
+        navLinks: true, // can click day/week names to navigate views
+        editable: true,
+        minTime: "8:00:00",
+        maxTime: "19:00:00",
+        weekends: false, // will hide Saturdays and Sundays
+        defaultView: 'agendaWeek',
+        allDaySlot: false,
+        timeFormat: 'H:mm',
+        slotLabelFormat: "HH:mm",
+
+        eventClick: function (calEvent, jsEvent) {
+          var title = prompt('Event Title:', calEvent.title, {
             buttons: {
-                Ok: true,
-                Cancel: false
+              Ok: true,
+              Cancel: false
             }
-        });
-        var room = prompt('Event Room:', calEvent.location, {
-            buttons: {
-                Ok: true,
-                Cancel: false
-            }
-        });
+          });
 
-        if (title && room) {
+          if(title == null) return;
+          var room = prompt('Event Room:', calEvent.location, {
+            buttons: {
+              Ok: true,
+              Cancel: false
+            }
+          });
+
+          if (title && room) {
             calEvent.title = title;
             calEvent.location = room;
             $('#calendar').fullCalendar('updateEvent', calEvent);
-        }
-      },
-      
-      eventRender: function(event, element, view) {
-  		if (event.location) element.find(".fc-title").append(" - " + event.location);
-	  },
-
-      
-
-      customButtons: {
-        addEventButton: {
-          text: 'Vorlesung hinzufügen',
-          click: function() {
-          	var titleStr = prompt('Geben Sie den Titel ein');
-          	var roomStr = prompt('Geben Sie den Raum ein');
-            var dateStartStr = prompt('Geben Sie ein Datum im Format YYYY-MM-DD HH:mm ein');
-            var durationStr = prompt('Geben Sie die Dauer im Format HH:mm ein');
-			var dateStart = moment(dateStartStr, 'YYYY-MM-DD HH:mm');
-			
-			var minutes = durationStr.split(':')[1];
-			var hours = durationStr.split(':')[0];
-			
-			var dateEnd = moment(dateStartStr, 'YYYY-MM-DD HH:mm')
-				.add(hours, 'hours')
-        		.add(minutes, 'minutes');
-        		
-            if (dateStart.isValid()) {
-              $('#calendar').fullCalendar('renderEvent', {
-                title: titleStr,
-                start: dateStart,
-                end: dateEnd,
-                location: roomStr
-              }, true);
-            } else {
-              alert('Invalid date.');
-            }
           }
         },
-        saveButton: {
-          text: 'Speichern',
-          click: function() {
-          	ical_new = $('#calendar').fullCalendar('clientEvents');
-          	
-//           var str;
-// 			events.forEach( function(e) { 
-//      			str += e.title + "\n";
-// 			});
-// 			
-// 			alert(str);
-			
-			ical_compare();
-          }
-      	}
-      }
-      
-      
-    });
-    
-    add_ical_source('https://imazze.github.io/TableToIcal/bin/TFE17-2%20-%204.%20Semester.ics');
-    ical_original = $('#calendar').fullCalendar('clientEvents');
-  });
-</script>
-<style>
-  body {
-    margin: 40px 10px;
-    padding: 0;
-    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-    font-size: 14px;
-  }
 
-  #calendar, header, h1, footer {
-    max-width: 900px;
-    margin: 0 auto;
-  }
-  header {
-    margin: 0 auto 20px
-  }
-  header input {
-    width: 70%;
-    font-size: medium;
-    padding: 4px
-  }
-  header button {
-    font-size: medium;
-    padding: 4px;
-    width: 20%
-  }
-</style>
+        eventRender: function (event, element, view) {
+          // Adding Room Name to title
+          if (event.location) element.find(".fc-title").append(" - " + event.location);
+
+          // Adding deleting symbol to every field
+          element.find(".fc-content").prepend("<span class='closeon'>X</span>");
+          element.find(".closeon").on('click', function () {
+            $('#calendar').fullCalendar('removeEvents', event._id);
+          });
+        },
+
+
+
+
+        customButtons: {
+          addEventButton: {
+            text: 'Vorlesung hinzufügen',
+            click: function () {
+              var titleStr = prompt('Geben Sie den Titel ein');
+              if(titleStr == null) return;
+              var roomStr = prompt('Geben Sie den Raum ein');
+              if(roomStr == null) return;
+              var dateStartStr = prompt('Geben Sie ein Datum im Format YYYY-MM-DD HH:mm ein');
+              if(dateStartStr == null) return;
+              var durationStr = prompt('Geben Sie die Dauer im Format HH:mm ein');
+              if(durationStr == null) return;
+              var dateStart = moment(dateStartStr, 'YYYY-MM-DD HH:mm');
+
+              var minutes = durationStr.split(':')[1];
+              var hours = durationStr.split(':')[0];
+
+              var dateEnd = moment(dateStartStr, 'YYYY-MM-DD HH:mm')
+                .add(hours, 'hours')
+                .add(minutes, 'minutes');
+
+              if (dateStart.isValid()) {
+                $('#calendar').fullCalendar('renderEvent', {
+                  title: titleStr,
+                  start: dateStart,
+                  end: dateEnd,
+                  location: roomStr
+                }, true);
+              } else {
+                alert('Invalid date.');
+              }
+            }
+          },
+          saveButton: {
+            text: 'Speichern',
+            click: function () {
+              ical_new = $('#calendar').fullCalendar('clientEvents');
+
+              //           var str;
+              // 			events.forEach( function(e) { 
+              //      			str += e.title + "\n";
+              // 			});
+              // 			
+              // 			alert(str);
+              //push_git(getChangesInCalendar());
+              WriteToSQL();
+            }
+          }
+        }
+
+
+      });
+
+      add_ical_source('https://imazze.github.io/TableToIcal/bin/TFE17-2%20-%204.%20Semester.ics');
+      ical_original = $('#calendar').fullCalendar('clientEvents');
+    });
+  </script>
+  <style>
+    body {
+      margin: 40px 10px;
+      padding: 0;
+      font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+      font-size: 14px;
+    }
+
+    #calendar,
+    header,
+    h1,
+    footer {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin: 0 auto 20px
+    }
+
+    header input {
+      width: 70%;
+      font-size: medium;
+      padding: 4px
+    }
+
+    header button {
+      font-size: medium;
+      padding: 4px;
+      width: 20%
+    }
+  </style>
 </head>
+
 <body>
   <div id='calendar'></div>
 </body>
+
 </html>
